@@ -42,4 +42,16 @@ public class StudentController {
         public List<Student> getStudentByLastname(@RequestParam String lastName){
         return ss.findbylastname(lastName);
         }
+
+    @PostMapping("/update")
+    public ResponseEntity<Student> update(@RequestBody Student newStudent){
+     ss.update(newStudent);
+        Student updatedStudent = ss.find(newStudent.getId());
+        if (updatedStudent != null) {
+            return ResponseEntity.ok(updatedStudent);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 }

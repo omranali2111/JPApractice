@@ -48,6 +48,12 @@ public class StudentDAOImpl implements StudentDAO {
         return query.getResultList();
     }
 
+    @Override
+    @Transactional
+    public void update(Student newStudent) {
+        entityManager.merge(newStudent);
+    }
+
 }
 
 
