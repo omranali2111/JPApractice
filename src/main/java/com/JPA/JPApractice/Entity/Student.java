@@ -1,6 +1,8 @@
 package com.JPA.JPApractice.Entity;
 
 import jakarta.persistence.*;
+import org.springframework.context.annotation.Bean;
+
 
 @Entity
 @Table(name="student")

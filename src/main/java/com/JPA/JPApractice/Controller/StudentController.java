@@ -1,7 +1,9 @@
 package com.JPA.JPApractice.Controller;
 
 import com.JPA.JPApractice.Dao.StudentDAOImpl;
+import com.JPA.JPApractice.Dao.StudentNotFoundException;
 import com.JPA.JPApractice.Entity.Student;
+import com.JPA.JPApractice.Entity.StudentErrorResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,13 +34,20 @@ public class StudentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Student> getStudentById(@PathVariable int id) {
-        Student student = ss.find(id);
-        if (student != null) {
-            return ResponseEntity.ok(student);
-        } else {
-            return ResponseEntity.notFound().build();
+        if (id < 0) {
+            throw new StudentNotFoundException("Invalid student ID - " + id);
         }
+
+        Student student = ss.find(id);
+
+        if (student == null) {
+            throw new StudentNotFoundException("Student id not found - " + id);
+        }
+
+        return ResponseEntity.ok(student);
     }
+
+
     @GetMapping("/getbylastname")
         public List<Student> getStudentByLastname(@RequestParam String lastName){
         return ss.findbylastname(lastName);
